@@ -1,21 +1,14 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <div class="wrap">
+      <div class="vertical-center">
+        <transition name="zoom-out">
+          <div class="logo" v-if="time < 1000">
+            hebel
+          </div>
+        </transition>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,37 +17,52 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      time: 0,
+    }
+  },
+  mounted () {
+    setInterval(() => {
+      this.time += 100
+    }, 100)
+  },
+  methods: {
+    passedSecond (ms) {
+      return ms < this.time
     }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body {
+  font-family: 'PT Sans', sans-serif;
+}
+.wrap {
+  background: #b73b1b;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.vertical-center {
+  padding-top: 50vh;
+}
+.logo {
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-size: 72px;
+  font-weight: bold;
 }
 
-h1, h2 {
-  font-weight: normal;
+.zoom-out-leave-active {
+  animation: zoom-then-move .5s reverse;
 }
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+@keyframes zoom-then-move {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    margin-left: 100%;
+    font-size: 90px;
+    opacity: 0;
+  }
 }
 </style>
